@@ -252,7 +252,7 @@ The code for our RPC server [RPCServer.cs](https://github.com/rabbitmq/rabbitmq-
                 channel.BasicQos(0, 1, false);
                 var consumer = new QueueingBasicConsumer(channel);
                 channel.BasicConsume(queue: "rpc_queue",
-                                     noAck: false,
+                                     autoAck: false,
                                      consumer: consumer);
                 Console.WriteLine(" [x] Awaiting RPC requests");
     
@@ -346,7 +346,7 @@ The code for our RPC client [RPCClient.cs](https://github.com/rabbitmq/rabbitmq-
             replyQueueName = channel.QueueDeclare().QueueName;
             consumer = new QueueingBasicConsumer(channel);
             channel.BasicConsume(queue: replyQueueName,
-                                 noAck: true,
+                                 autoAck: true,
                                  consumer: consumer);
         }
     

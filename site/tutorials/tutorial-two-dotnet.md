@@ -114,7 +114,7 @@ handle messages delivered by RabbitMQ and perform the task, so let's call it `Wo
 
         Console.WriteLine(" [x] Done");
     };
-    channel.BasicConsume(queue: "task_queue", noAck: true, consumer: consumer);
+    channel.BasicConsume(queue: "task_queue", autoAck: true, consumer: consumer);
 
 
 Our fake task to simulate execution time:
@@ -218,7 +218,7 @@ the consumer dies. It's fine even if processing a message takes a very, very
 long time.
 
 Message acknowledgments are turned on by default. In previous
-examples we explicitly turned them off by setting the `noAck` ("no manual acks")
+examples we explicitly turned them off by setting the `autoAck` ("automatic acks")
 parameter to `true`. It's time to remove this flag and send a proper acknowledgment
 from the worker, once we're done with a task.
 
@@ -237,7 +237,7 @@ from the worker, once we're done with a task.
 
         channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
     };
-    channel.BasicConsume(queue: "task_queue", noAck: false, consumer: consumer);
+    channel.BasicConsume(queue: "task_queue", autoAck: false, consumer: consumer);
 
 Using this code we can be sure that even if you kill a worker using
 CTRL+C while it was processing a message, nothing will be lost. Soon
@@ -467,7 +467,7 @@ And our `Worker.cs`:
                     channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
                 };
                 channel.BasicConsume(queue: "task_queue",
-                                     noAck: false,
+                                     autoAck: false,
                                      consumer: consumer);
 
                 Console.WriteLine(" Press [enter] to exit.");

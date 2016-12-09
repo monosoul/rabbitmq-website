@@ -256,7 +256,7 @@ does.
                     Console.WriteLine(" [x] Received {0}", message);
                 };
                 channel.BasicConsume(queue: "hello",
-                                     noAck: true,
+                                     autoAck: true,
                                      consumer: consumer);
     
                 Console.WriteLine(" Press [enter] to exit.");

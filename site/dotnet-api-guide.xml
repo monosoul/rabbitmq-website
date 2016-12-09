@@ -299,8 +299,8 @@ mode.BasicPublish(exchangeName,
             information (properties) and message body can be extracted:
 
 <pre class="sourcecode">
-bool noAck = false;
-BasicGetResult result = channel.BasicGet(queueName, noAck);
+bool autoAck = false;
+BasicGetResult result = channel.BasicGet(queueName, autoAck);
 if (result == null) {
     // No message available at this time.
 } else {
@@ -309,7 +309,7 @@ if (result == null) {
     ...
 </pre>
 
-            Since <code>noAck = false</code> above, you must also call <code>
+            Since <code>autoAck = false</code> above, you must also call <code>
             IModel.BasicAck</code> to acknowledge that you have successfully received
             and processed the message:
 
@@ -783,7 +783,7 @@ factory.TopologyRecoveryEnabled  = false;
             successfully enqueued on one or more queues, is no guarantee of its
             eventual receipt: most trivially, the queue could be deleted before
             the message is processed, but other situations, like the use of the
-            <code>noAck</code> flag by a message consumer, can also make the guarantee
+            <code>autoAck</code> flag by a message consumer, can also make the guarantee
             provided by "mandatory" conditional.
             </p>
 
@@ -848,7 +848,7 @@ factory.TopologyRecoveryEnabled  = false;
             <h3>Acknowledgment modes for point-to-point</h3>
 
             AMQP can operate in one of two modes, when receiving messages from the
-            server: auto-acknowledgement mode (when the <code>noAck</code> flag has been
+            server: auto-acknowledgement mode (when the <code>autoAck</code> flag has been
             set on <code>BasicGet</code>, <code>BasicConsume</code>, or the <code>
             Subscription</code> constructor), or manual-acknowledgement mode. Choosing
             the right acknowledgement mode is important for your application:
